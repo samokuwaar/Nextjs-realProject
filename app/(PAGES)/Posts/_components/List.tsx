@@ -1,7 +1,16 @@
 
 import React from "react";
 
-const List = ({ post }) => {
+type Post = {
+  id: number;
+  name: string;
+  body: string;
+}
+
+type ListProps = {
+  post: Post[];
+}
+const List = ({ post }: ListProps) => {
   return (
     <div className="w-full">
 
@@ -107,7 +116,7 @@ const List = ({ post }) => {
             {/* Table Body */}
             <tbody className="divide-y divide-gray-100">
 
-              {post.map((dat) => (
+              {post.map((dat ) => (
 
                 <tr
                   key={dat.id}
