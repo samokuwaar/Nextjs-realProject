@@ -1,4 +1,7 @@
+'use client'
 
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 type Post = {
@@ -9,8 +12,28 @@ type Post = {
 
 type ListProps = {
   post: Post[];
+  // onDelete: () =>void;
+
 }
-const List = ({ post }: ListProps) => {
+const List =  ({ post}: ListProps) => {
+  const router = useRouter();
+  const handleDelete = async (id: number) => {
+      try {
+      const response = await fetch(`http://localhost:3000/api/post/${id}`, {
+        method: "DELETE",
+      });
+  
+      if (response.ok) {
+        console.log("Post deleted successfully");
+        // onDelete();
+        router.refresh();
+      } else {
+        console.log("Failed to delete post");
+      }
+    } catch (error) {
+    console.log("delete request failed",error);
+  }
+  }
   return (
     <div className="w-full">
 
@@ -190,7 +213,7 @@ const List = ({ post }: ListProps) => {
                     <div className="flex items-center justify-end gap-2">
 
                       {/* Edit */}
-                      <button
+                      <Link href={`/Posts/Edit/${dat.id}`}
                         className="
                           inline-flex
                           items-center
@@ -230,11 +253,12 @@ const List = ({ post }: ListProps) => {
 
                         Edit
 
-                      </button>
+                      </Link>
 
 
                       {/* Delete */}
                       <button
+                        onClick={() => handleDelete(dat.id)}
                         className="
                           inline-flex
                           items-center

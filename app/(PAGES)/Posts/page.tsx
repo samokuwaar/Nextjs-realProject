@@ -1,27 +1,32 @@
 
-"use client";
 
 import axios from "axios";
-import { useEffect, useState } from "react";
 import List from "./_components/List";
 import Link from "next/link";
 
-const Posts = () => {
-  const [post, setPost] = useState<any[]>([]);
+type post = {
+  id: number;
+  name: string;
+  body: string;
+}
 
-  useEffect(() => {
-    const getPosts = async () => {
-      const { data } = await axios.get(
+const Posts = async () => {
+
+      // const response = await fetch(
+      //   "http://localhost:3000/api/post",{cache:'no-store'}
+      // );
+      const response = await axios.get(
         "http://localhost:3000/api/post"
       );
 
-      console.log(data);
-      setPost(data);
+      // if(!response.ok){
+      //   throw new Error("Failed to fetch posts");
+      // }
+      console.log(response.data);
+      console.log(response);
+  
+    const post : post[] = await response.data;
       console.log(post);
-    };
-
-    getPosts();
-  }, []);
 
   return (
     <div className="min-h-screen bg-gray-50">
